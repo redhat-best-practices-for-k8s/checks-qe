@@ -1,0 +1,5 @@
+checks-qe
+*.exe
+*.test
+*.out
+.DS_Store
