@@ -36,3 +36,20 @@ jobs:
         run: ./checks-qe list
       - name: Vet
         run: go vet ./...
+
+  integration:
+    runs-on: ubuntu-latest
+    needs: [lint, build]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Create Kind cluster
+        uses: helm/kind-action@v1
+        with:
+          cluster_name: checks-qe
+      - name: Build checks-qe
+        run: go build -o checks-qe ./cmd/checks-qe/
+      - name: Run scenarios
+        run: ./checks-qe run --skip-ocp --skip-probe --parallel 4 --verbose
