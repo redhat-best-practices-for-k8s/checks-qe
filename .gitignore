@@ -1,4 +1,4 @@
-checks-qe
+/checks-qe
 *.exe
 *.test
 *.out
