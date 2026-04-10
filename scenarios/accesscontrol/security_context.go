@@ -8,7 +8,6 @@ import (
 )
 
 func init() {
-	// no-1337-uid (check looks at pod.Spec.SecurityContext.RunAsUser)
 	scenario.Register(
 		scenario.Scenario{
 			Name:           "accesscontrol/no-1337-uid/compliant",
@@ -38,9 +37,19 @@ func init() {
 				return cluster.CreateAndWaitForDeployment(ctx.Ctx, ctx.Client, dep, cluster.DefaultTimeout)
 			},
 		},
+		scenario.Scenario{
+			Name:           "accesscontrol/no-1337-uid/mixed-two-deployments",
+			CheckName:      "access-control-no-1337-uid",
+			Category:       checks.CategoryAccessControl,
+			Description:    "Two deployments, one with UID 1337 should be non-compliant",
+			ExpectedStatus: checks.StatusNonCompliant,
+			Privileged:     true,
+			Setup: scenario.TwoDeploymentSetup(func(b *builder.DeploymentBuilder) *builder.DeploymentBuilder {
+				return b.WithPodRunAsUser(1337)
+			}),
+		},
 	)
 
-	// privilege-escalation
 	scenario.Register(
 		scenario.Scenario{
 			Name:           "accesscontrol/privilege-escalation/compliant",
@@ -70,9 +79,19 @@ func init() {
 				return cluster.CreateAndWaitForDeployment(ctx.Ctx, ctx.Client, dep, cluster.DefaultTimeout)
 			},
 		},
+		scenario.Scenario{
+			Name:           "accesscontrol/privilege-escalation/mixed-two-deployments",
+			CheckName:      "access-control-security-context-privilege-escalation",
+			Category:       checks.CategoryAccessControl,
+			Description:    "Two deployments, one with privilege escalation should be non-compliant",
+			ExpectedStatus: checks.StatusNonCompliant,
+			Privileged:     true,
+			Setup: scenario.TwoDeploymentSetup(func(b *builder.DeploymentBuilder) *builder.DeploymentBuilder {
+				return b.WithAllowPrivilegeEscalation(true)
+			}),
+		},
 	)
 
-	// read-only-filesystem
 	scenario.Register(
 		scenario.Scenario{
 			Name:           "accesscontrol/read-only-fs/compliant",
@@ -93,14 +112,25 @@ func init() {
 			Category:       checks.CategoryAccessControl,
 			Description:    "Deployment without readOnlyRootFilesystem should be non-compliant",
 			ExpectedStatus: checks.StatusNonCompliant,
+			Setup:          scenario.VanillaDeploymentSetup,
+		},
+		scenario.Scenario{
+			Name:           "accesscontrol/read-only-fs/mixed-two-deployments",
+			CheckName:      "access-control-security-context-read-only-file-system",
+			Category:       checks.CategoryAccessControl,
+			Description:    "Two deployments, one without readOnlyRootFS should be non-compliant",
+			ExpectedStatus: checks.StatusNonCompliant,
 			Setup: func(ctx *scenario.RunContext) error {
-				dep := builder.NewDeployment("test-dep", ctx.Namespace).Build()
-				return cluster.CreateAndWaitForDeployment(ctx.Ctx, ctx.Client, dep, cluster.DefaultTimeout)
+				dep1 := builder.NewDeployment("test-dep-1", ctx.Namespace).Build()
+				if err := cluster.CreateAndWaitForDeployment(ctx.Ctx, ctx.Client, dep1, cluster.DefaultTimeout); err != nil {
+					return err
+				}
+				dep2 := builder.NewDeployment("test-dep-2", ctx.Namespace).WithReadOnlyRootFS().Build()
+				return cluster.CreateAndWaitForDeployment(ctx.Ctx, ctx.Client, dep2, cluster.DefaultTimeout)
 			},
 		},
 	)
 
-	// non-root-user-id
 	scenario.Register(
 		scenario.Scenario{
 			Name:           "accesscontrol/non-root-user-id/compliant",
@@ -131,9 +161,19 @@ func init() {
 				return cluster.CreateAndWaitForDeployment(ctx.Ctx, ctx.Client, dep, cluster.DefaultTimeout)
 			},
 		},
+		scenario.Scenario{
+			Name:           "accesscontrol/non-root-user-id/mixed-two-deployments",
+			CheckName:      "access-control-security-context-non-root-user-id-check",
+			Category:       checks.CategoryAccessControl,
+			Description:    "Two deployments, one with runAsUser=0 should be non-compliant",
+			ExpectedStatus: checks.StatusNonCompliant,
+			Privileged:     true,
+			Setup: scenario.TwoDeploymentSetup(func(b *builder.DeploymentBuilder) *builder.DeploymentBuilder {
+				return b.WithRunAsUser(0)
+			}),
+		},
 	)
 
-	// security-context (tests SCC category classification)
 	scenario.Register(
 		scenario.Scenario{
 			Name:           "accesscontrol/security-context/non-compliant",
@@ -148,6 +188,17 @@ func init() {
 					Build()
 				return cluster.CreateAndWaitForDeployment(ctx.Ctx, ctx.Client, dep, cluster.DefaultTimeout)
 			},
+		},
+		scenario.Scenario{
+			Name:           "accesscontrol/security-context/mixed-two-deployments",
+			CheckName:      "access-control-security-context",
+			Category:       checks.CategoryAccessControl,
+			Description:    "Two deployments, one with IPC_LOCK should be non-compliant",
+			ExpectedStatus: checks.StatusNonCompliant,
+			Privileged:     true,
+			Setup: scenario.TwoDeploymentSetup(func(b *builder.DeploymentBuilder) *builder.DeploymentBuilder {
+				return b.WithCapability("IPC_LOCK")
+			}),
 		},
 	)
 }

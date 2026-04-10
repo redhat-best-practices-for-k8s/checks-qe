@@ -9,15 +9,15 @@ type CRDBuilder struct {
 	crd *apiextv1.CustomResourceDefinition
 }
 
-func NewCRD(name, group string) *CRDBuilder {
+func NewCRD(plural, group string) *CRDBuilder {
 	return &CRDBuilder{crd: &apiextv1.CustomResourceDefinition{
-		ObjectMeta: metav1.ObjectMeta{Name: name},
+		ObjectMeta: metav1.ObjectMeta{Name: plural + "." + group},
 		Spec: apiextv1.CustomResourceDefinitionSpec{
 			Group: group,
 			Names: apiextv1.CustomResourceDefinitionNames{
-				Plural:   name,
-				Singular: name,
-				Kind:     name,
+				Plural:   plural,
+				Singular: plural,
+				Kind:     plural,
 			},
 			Scope: apiextv1.NamespaceScoped,
 			Versions: []apiextv1.CustomResourceDefinitionVersion{{

@@ -48,6 +48,17 @@ func init() {
 					return cluster.CreateAndWaitForDeployment(ctx.Ctx, ctx.Client, dep, cluster.DefaultTimeout)
 				},
 			},
+			scenario.Scenario{
+				Name:           "accesscontrol/" + string(cap.capability) + "/mixed-two-deployments",
+				CheckName:      cap.checkName,
+				Category:       checks.CategoryAccessControl,
+				Description:    "Two deployments, one with " + string(cap.capability) + " should be non-compliant",
+				ExpectedStatus: checks.StatusNonCompliant,
+				Privileged:     true,
+				Setup: scenario.TwoDeploymentSetup(func(b *builder.DeploymentBuilder) *builder.DeploymentBuilder {
+					return b.WithCapability(cap.capability)
+				}),
+			},
 		)
 	}
 }

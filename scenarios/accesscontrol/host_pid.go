@@ -34,5 +34,16 @@ func init() {
 				return cluster.CreateAndWaitForDeployment(ctx.Ctx, ctx.Client, dep, cluster.DefaultTimeout)
 			},
 		},
+		scenario.Scenario{
+			Name:           "accesscontrol/host-pid/mixed-two-deployments",
+			CheckName:      "access-control-pod-host-pid",
+			Category:       checks.CategoryAccessControl,
+			Description:    "Two deployments, one with hostPID=true should be non-compliant",
+			ExpectedStatus: checks.StatusNonCompliant,
+			Privileged:     true,
+			Setup: scenario.TwoDeploymentSetup(func(b *builder.DeploymentBuilder) *builder.DeploymentBuilder {
+				return b.WithHostPID(true)
+			}),
+		},
 	)
 }
