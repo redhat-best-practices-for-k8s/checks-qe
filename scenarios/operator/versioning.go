@@ -33,7 +33,7 @@ func init() {
 			ExpectedStatus: checks.StatusCompliant,
 			Setup:          scenario.VanillaDeploymentSetup,
 			PostDiscovery: func(resources *checks.DiscoveredResources) {
-				crd := builder.NewCRD("testresources.example.com", "example.com").Build()
+				crd := builder.NewCRD("testresources", "example.com").Build()
 				resources.CRDs = append(resources.CRDs, crd)
 			},
 		},
@@ -45,7 +45,7 @@ func init() {
 			ExpectedStatus: checks.StatusNonCompliant,
 			Setup:          scenario.VanillaDeploymentSetup,
 			PostDiscovery: func(resources *checks.DiscoveredResources) {
-				crd := builder.NewCRD("testresources.example.com", "example.com").
+				crd := builder.NewCRD("testresources", "example.com").
 					WithVersion("invalid", true).
 					Build()
 				resources.CRDs = append(resources.CRDs, crd)
@@ -62,7 +62,7 @@ func init() {
 			ExpectedStatus: checks.StatusCompliant,
 			Setup:          scenario.VanillaDeploymentSetup,
 			PostDiscovery: func(resources *checks.DiscoveredResources) {
-				crd := builder.NewCRD("testresources.example.com", "example.com").Build()
+				crd := builder.NewCRD("testresources", "example.com").Build()
 				resources.CRDs = append(resources.CRDs, crd)
 			},
 		},
@@ -74,7 +74,7 @@ func init() {
 			ExpectedStatus: checks.StatusNonCompliant,
 			Setup:          scenario.VanillaDeploymentSetup,
 			PostDiscovery: func(resources *checks.DiscoveredResources) {
-				crd := builder.NewCRD("testresources.example.com", "example.com").
+				crd := builder.NewCRD("testresources", "example.com").
 					WithoutSchema().
 					Build()
 				resources.CRDs = append(resources.CRDs, crd)

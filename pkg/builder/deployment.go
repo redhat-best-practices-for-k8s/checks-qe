@@ -291,6 +291,17 @@ func (b *DeploymentBuilder) WithTopologySpreadConstraint(key string, maxSkew int
 	return b
 }
 
+func (b *DeploymentBuilder) WithSecondContainer(name, image string) *DeploymentBuilder {
+	b.dep.Spec.Template.Spec.Containers = append(b.dep.Spec.Template.Spec.Containers,
+		corev1.Container{
+			Name:    name,
+			Image:   image,
+			Command: []string{"/bin/sh", "-c", "sleep infinity"},
+		},
+	)
+	return b
+}
+
 func (b *DeploymentBuilder) WithTerminationMessagePolicy(p corev1.TerminationMessagePolicy) *DeploymentBuilder {
 	b.dep.Spec.Template.Spec.Containers[0].TerminationMessagePolicy = p
 	return b

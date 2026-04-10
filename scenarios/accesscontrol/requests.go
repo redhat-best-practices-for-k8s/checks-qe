@@ -59,5 +59,35 @@ func init() {
 				return cluster.CreateAndWaitForDeployment(ctx.Ctx, ctx.Client, dep, cluster.DefaultTimeout)
 			},
 		},
+		scenario.Scenario{
+			Name:           "accesscontrol/requests/compliant-two-deployments",
+			CheckName:      "access-control-requests",
+			Category:       checks.CategoryAccessControl,
+			Description:    "Two deployments both with requests should be compliant",
+			ExpectedStatus: checks.StatusCompliant,
+			Setup: func(ctx *scenario.RunContext) error {
+				dep1 := builder.NewDeployment("test-dep-1", ctx.Namespace).WithResourceRequests("100m", "128Mi").Build()
+				if err := cluster.CreateAndWaitForDeployment(ctx.Ctx, ctx.Client, dep1, cluster.DefaultTimeout); err != nil {
+					return err
+				}
+				dep2 := builder.NewDeployment("test-dep-2", ctx.Namespace).WithResourceRequests("200m", "256Mi").Build()
+				return cluster.CreateAndWaitForDeployment(ctx.Ctx, ctx.Client, dep2, cluster.DefaultTimeout)
+			},
+		},
+		scenario.Scenario{
+			Name:           "accesscontrol/requests/mixed-two-deployments",
+			CheckName:      "access-control-requests",
+			Category:       checks.CategoryAccessControl,
+			Description:    "Two deployments, one without memory request should be non-compliant",
+			ExpectedStatus: checks.StatusNonCompliant,
+			Setup: func(ctx *scenario.RunContext) error {
+				dep1 := builder.NewDeployment("test-dep-1", ctx.Namespace).WithResourceRequests("100m", "128Mi").Build()
+				if err := cluster.CreateAndWaitForDeployment(ctx.Ctx, ctx.Client, dep1, cluster.DefaultTimeout); err != nil {
+					return err
+				}
+				dep2 := builder.NewDeployment("test-dep-2", ctx.Namespace).WithResourceRequests("100m", "").Build()
+				return cluster.CreateAndWaitForDeployment(ctx.Ctx, ctx.Client, dep2, cluster.DefaultTimeout)
+			},
+		},
 	)
 }

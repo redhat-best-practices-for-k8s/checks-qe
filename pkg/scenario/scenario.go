@@ -86,6 +86,17 @@ func VanillaDeploymentSetup(ctx *RunContext) error {
 	return cluster.CreateAndWaitForDeployment(ctx.Ctx, ctx.Client, dep, cluster.DefaultTimeout)
 }
 
+func TwoDeploymentSetup(decorate func(*builder.DeploymentBuilder) *builder.DeploymentBuilder) func(ctx *RunContext) error {
+	return func(ctx *RunContext) error {
+		dep1 := decorate(builder.NewDeployment("test-dep-1", ctx.Namespace)).Build()
+		if err := cluster.CreateAndWaitForDeployment(ctx.Ctx, ctx.Client, dep1, cluster.DefaultTimeout); err != nil {
+			return err
+		}
+		dep2 := builder.NewDeployment("test-dep-2", ctx.Namespace).Build()
+		return cluster.CreateAndWaitForDeployment(ctx.Ctx, ctx.Client, dep2, cluster.DefaultTimeout)
+	}
+}
+
 func Filtered(pattern string) []Scenario {
 	if pattern == "" {
 		return All()

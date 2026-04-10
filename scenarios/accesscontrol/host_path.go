@@ -34,5 +34,16 @@ func init() {
 				return cluster.CreateAndWaitForDeployment(ctx.Ctx, ctx.Client, dep, cluster.DefaultTimeout)
 			},
 		},
+		scenario.Scenario{
+			Name:           "accesscontrol/host-path/mixed-two-deployments",
+			CheckName:      "access-control-pod-host-path",
+			Category:       checks.CategoryAccessControl,
+			Description:    "Two deployments, one with hostPath should be non-compliant",
+			ExpectedStatus: checks.StatusNonCompliant,
+			Privileged:     true,
+			Setup: scenario.TwoDeploymentSetup(func(b *builder.DeploymentBuilder) *builder.DeploymentBuilder {
+				return b.WithHostPathVolume("hostdata", "/mnt/data")
+			}),
+		},
 	)
 }

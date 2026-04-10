@@ -34,5 +34,16 @@ func init() {
 				return cluster.CreateAndWaitForDeployment(ctx.Ctx, ctx.Client, dep, cluster.DefaultTimeout)
 			},
 		},
+		scenario.Scenario{
+			Name:           "accesscontrol/host-ipc/mixed-two-deployments",
+			CheckName:      "access-control-pod-host-ipc",
+			Category:       checks.CategoryAccessControl,
+			Description:    "Two deployments, one with hostIPC=true should be non-compliant",
+			ExpectedStatus: checks.StatusNonCompliant,
+			Privileged:     true,
+			Setup: scenario.TwoDeploymentSetup(func(b *builder.DeploymentBuilder) *builder.DeploymentBuilder {
+				return b.WithHostIPC(true)
+			}),
+		},
 	)
 }
