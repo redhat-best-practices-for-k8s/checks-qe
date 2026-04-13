@@ -7,7 +7,7 @@ import (
 	"github.com/redhat-best-practices-for-k8s/checks-qe/pkg/scenario"
 )
 
-func init() {
+func registerContainers() {
 	scenario.Register(
 		scenario.Scenario{
 			Name:           "manageability/container-port-name-format/compliant",

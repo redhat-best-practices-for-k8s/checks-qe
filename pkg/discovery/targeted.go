@@ -89,6 +89,8 @@ type ClusterSnapshot struct {
 	Nodes             []corev1.Node
 	PersistentVolumes []corev1.PersistentVolume
 	StorageClasses    []storagev1.StorageClass
+	IsDualStack       bool
+	HasMultus         bool
 }
 
 func FetchClusterSnapshot(ctx context.Context, client kubernetes.Interface) (*ClusterSnapshot, error) {
@@ -104,10 +106,25 @@ func FetchClusterSnapshot(ctx context.Context, client kubernetes.Interface) (*Cl
 	if err != nil {
 		return nil, fmt.Errorf("listing storage classes: %w", err)
 	}
+
+	dualStack := false
+	kubeSvc, err := client.CoreV1().Services("default").Get(ctx, "kubernetes", metav1.GetOptions{})
+	if err == nil && len(kubeSvc.Spec.IPFamilies) > 1 {
+		dualStack = true
+	}
+
+	hasMultus := false
+	_, err = client.Discovery().ServerResourcesForGroupVersion("k8s.cni.cncf.io/v1")
+	if err == nil {
+		hasMultus = true
+	}
+
 	return &ClusterSnapshot{
 		Nodes:             nodes.Items,
 		PersistentVolumes: pvs.Items,
 		StorageClasses:    scs.Items,
+		IsDualStack:       dualStack,
+		HasMultus:         hasMultus,
 	}, nil
 }
 

@@ -7,7 +7,7 @@ import (
 	"github.com/redhat-best-practices-for-k8s/checks-qe/pkg/scenario"
 )
 
-func init() {
+func registerServiceMesh() {
 	scenario.Register(
 		scenario.Scenario{
 			Name:           "platform/service-mesh-usage/compliant",

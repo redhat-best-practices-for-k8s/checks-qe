@@ -16,7 +16,7 @@ var execProbe = &corev1.Probe{
 	PeriodSeconds:       5,
 }
 
-func init() {
+func registerProbes() {
 	probeChecks := []struct {
 		name      string
 		checkName string

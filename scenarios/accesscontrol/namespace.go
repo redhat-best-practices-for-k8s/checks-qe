@@ -16,7 +16,7 @@ func syntheticPod(name, namespace string) corev1.Pod {
 	}
 }
 
-func init() {
+func registerNamespace() {
 	scenario.Register(
 		scenario.Scenario{
 			Name:           "accesscontrol/namespace/compliant",
