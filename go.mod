@@ -1,6 +1,6 @@
 module github.com/redhat-best-practices-for-k8s/checks-qe
 
-go 1.26
+go 1.26.1
 
 toolchain go1.26.2
 
@@ -8,12 +8,14 @@ require (
 	github.com/blang/semver/v4 v4.0.0
 	github.com/operator-framework/api v0.42.0
 	github.com/redhat-best-practices-for-k8s/checks v0.0.18
+	github.com/sebrandon1/bps-operator v0.0.8
 	github.com/spf13/cobra v1.10.2
 	k8s.io/api v0.35.3
 	k8s.io/apiextensions-apiserver v0.35.3
 	k8s.io/apimachinery v0.35.3
 	k8s.io/client-go v0.35.3
 	k8s.io/utils v0.0.0-20260108192941-914a6e750570
+	sigs.k8s.io/controller-runtime v0.23.3
 )
 
 require (
@@ -21,6 +23,7 @@ require (
 	github.com/antlr4-go/antlr/v4 v4.13.1 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/emicklei/go-restful/v3 v3.13.0 // indirect
+	github.com/evanphx/json-patch/v5 v5.9.11 // indirect
 	github.com/fxamacker/cbor/v2 v2.9.0 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-openapi/jsonpointer v0.22.4 // indirect
