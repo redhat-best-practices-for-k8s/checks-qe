@@ -56,6 +56,16 @@ func (b *CRDBuilder) WithoutSchema() *CRDBuilder {
 	return b
 }
 
+func (b *CRDBuilder) WithStatusSubresource() *CRDBuilder {
+	for i := range b.crd.Spec.Versions {
+		if b.crd.Spec.Versions[i].Subresources == nil {
+			b.crd.Spec.Versions[i].Subresources = &apiextv1.CustomResourceSubresources{}
+		}
+		b.crd.Spec.Versions[i].Subresources.Status = &apiextv1.CustomResourceSubresourceStatus{}
+	}
+	return b
+}
+
 func (b *CRDBuilder) Build() apiextv1.CustomResourceDefinition {
 	return *b.crd.DeepCopy()
 }

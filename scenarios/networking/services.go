@@ -8,15 +8,16 @@ import (
 	corev1 "k8s.io/api/core/v1"
 )
 
-func init() {
+func registerNetworkServices() {
 	scenario.Register(
 		scenario.Scenario{
-			Name:           "networking/dual-stack-service/compliant",
-			CheckName:      "networking-dual-stack-service",
-			Category:       checks.CategoryNetworking,
-			Description:    "Service with dual-stack IP family policy should be compliant",
-			ExpectedStatus: checks.StatusCompliant,
-			Tags:           []string{"dual-stack"},
+			Name:              "networking/dual-stack-service/compliant",
+			CheckName:         "networking-dual-stack-service",
+			Category:          checks.CategoryNetworking,
+			Description:       "Service with dual-stack IP family policy should be compliant",
+			ExpectedStatus:    checks.StatusCompliant,
+			RequiresDualStack: true,
+			Tags:              []string{"dual-stack"},
 			Setup: func(ctx *scenario.RunContext) error {
 				dep := builder.NewDeployment("test-dep", ctx.Namespace).
 					WithContainerPort(8080).

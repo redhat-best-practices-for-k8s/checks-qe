@@ -6,7 +6,7 @@ import (
 	"github.com/redhat-best-practices-for-k8s/checks-qe/pkg/scenario"
 )
 
-func init() {
+func registerOwnership() {
 	scenario.Register(
 		scenario.Scenario{
 			Name:           "operator/single-crd-owner/compliant",

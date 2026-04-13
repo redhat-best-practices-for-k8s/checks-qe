@@ -7,7 +7,7 @@ import (
 	"github.com/redhat-best-practices-for-k8s/checks-qe/pkg/scenario"
 )
 
-func init() {
+func registerHugepages() {
 	scenario.Register(
 		scenario.Scenario{
 			Name:           "platform/hugepages-1g-only/compliant",

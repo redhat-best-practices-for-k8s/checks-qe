@@ -155,6 +155,7 @@ func (r *Runner) runOne(s scenario.Scenario) (ScenarioResult, string) {
 	if err := discovery.WithClusterRoleBindings(ctx, r.client, resources); err != nil {
 		return fail(fmt.Errorf("cluster role bindings discovery: %w", err))
 	}
+	resources.K8sClientset = r.client
 
 	if s.PostDiscovery != nil {
 		s.PostDiscovery(resources)
@@ -195,7 +196,21 @@ func (r *Runner) shouldSkip(s scenario.Scenario) bool {
 	if s.RequiresProbe && r.opts.SkipProbe {
 		return true
 	}
+	if s.RequiresDualStack && !r.hasDualStack() {
+		return true
+	}
+	if s.RequiresMultus && !r.hasMultus() {
+		return true
+	}
 	return false
+}
+
+func (r *Runner) hasDualStack() bool {
+	return r.clusterSnap != nil && r.clusterSnap.IsDualStack
+}
+
+func (r *Runner) hasMultus() bool {
+	return r.clusterSnap != nil && r.clusterSnap.HasMultus
 }
 
 func (r *Runner) skipReason(s scenario.Scenario) string {
@@ -207,6 +222,12 @@ func (r *Runner) skipReason(s scenario.Scenario) string {
 	}
 	if s.RequiresProbe && r.opts.SkipProbe {
 		return "probe scenarios skipped (--skip-probe)"
+	}
+	if s.RequiresDualStack && !r.hasDualStack() {
+		return "requires dual-stack cluster"
+	}
+	if s.RequiresMultus && !r.hasMultus() {
+		return "requires Multus CNI"
 	}
 	return "skipped"
 }

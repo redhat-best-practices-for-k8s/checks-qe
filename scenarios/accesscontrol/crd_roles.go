@@ -7,7 +7,7 @@ import (
 	rbacv1 "k8s.io/api/rbac/v1"
 )
 
-func init() {
+func registerCRDRoles() {
 	scenario.Register(
 		scenario.Scenario{
 			Name:           "accesscontrol/crd-roles/compliant",

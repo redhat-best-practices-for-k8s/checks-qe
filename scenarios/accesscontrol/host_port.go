@@ -7,7 +7,7 @@ import (
 	"github.com/redhat-best-practices-for-k8s/checks-qe/pkg/scenario"
 )
 
-func init() {
+func registerHostPort() {
 	scenario.Register(
 		scenario.Scenario{
 			Name:           "accesscontrol/host-port/compliant",

@@ -7,7 +7,7 @@ import (
 	"github.com/redhat-best-practices-for-k8s/checks-qe/pkg/scenario"
 )
 
-func init() {
+func registerPorts() {
 	scenario.Register(
 		scenario.Scenario{
 			Name:           "networking/ocp-reserved-ports/compliant",
@@ -63,6 +63,17 @@ func init() {
 					Build()
 				return cluster.CreateAndWaitForDeployment(ctx.Ctx, ctx.Client, dep, cluster.DefaultTimeout)
 			},
+		},
+	)
+
+	scenario.Register(
+		scenario.Scenario{
+			Name:           "networking/undeclared-ports/compliant-no-probe",
+			CheckName:      "networking-undeclared-container-ports-usage",
+			Category:       checks.CategoryNetworking,
+			Description:    "No probe executor means undeclared ports check is compliant",
+			ExpectedStatus: checks.StatusCompliant,
+			Setup:          scenario.VanillaDeploymentSetup,
 		},
 	)
 }

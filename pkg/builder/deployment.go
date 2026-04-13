@@ -302,6 +302,11 @@ func (b *DeploymentBuilder) WithSecondContainer(name, image string) *DeploymentB
 	return b
 }
 
+func (b *DeploymentBuilder) WithCommand(command ...string) *DeploymentBuilder {
+	b.dep.Spec.Template.Spec.Containers[0].Command = command
+	return b
+}
+
 func (b *DeploymentBuilder) WithTerminationMessagePolicy(p corev1.TerminationMessagePolicy) *DeploymentBuilder {
 	b.dep.Spec.Template.Spec.Containers[0].TerminationMessagePolicy = p
 	return b

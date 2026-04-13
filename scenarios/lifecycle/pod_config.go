@@ -8,7 +8,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 )
 
-func init() {
+func registerPodConfig() {
 	scenario.Register(
 		scenario.Scenario{
 			Name:           "lifecycle/image-pull-policy/compliant",

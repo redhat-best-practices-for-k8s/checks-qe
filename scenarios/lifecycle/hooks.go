@@ -12,7 +12,7 @@ var execHandler = &corev1.LifecycleHandler{
 	Exec: &corev1.ExecAction{Command: []string{"true"}},
 }
 
-func init() {
+func registerHooks() {
 	hookChecks := []struct {
 		name      string
 		checkName string

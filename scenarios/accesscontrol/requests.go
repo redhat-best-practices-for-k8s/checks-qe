@@ -7,7 +7,7 @@ import (
 	"github.com/redhat-best-practices-for-k8s/checks-qe/pkg/scenario"
 )
 
-func init() {
+func registerRequests() {
 	scenario.Register(
 		scenario.Scenario{
 			Name:           "accesscontrol/requests/compliant",

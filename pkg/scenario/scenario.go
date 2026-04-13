@@ -29,8 +29,10 @@ type Scenario struct {
 	ExpectedStatus string
 	Privileged     bool
 	RequiresOCP    bool
-	RequiresProbe  bool
-	Tags           []string
+	RequiresProbe     bool
+	RequiresDualStack bool
+	RequiresMultus    bool
+	Tags              []string
 	Setup          func(ctx *RunContext) error
 	PostDiscovery  func(resources *checks.DiscoveredResources)
 	Verify         func(result checks.CheckResult) error

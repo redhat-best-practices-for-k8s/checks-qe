@@ -6,7 +6,7 @@ import (
 	"github.com/redhat-best-practices-for-k8s/checks-qe/pkg/scenario"
 )
 
-func init() {
+func registerVersioning() {
 	scenario.Register(
 		scenario.Scenario{
 			Name:           "operator/semantic-versioning/compliant",
@@ -18,6 +18,36 @@ func init() {
 			PostDiscovery: func(resources *checks.DiscoveredResources) {
 				csv := builder.NewCSV("test-operator.v1.2.3", resources.Namespaces[0]).
 					WithVersion("1.2.3").
+					Build()
+				resources.CSVs = append(resources.CSVs, csv)
+			},
+		},
+	)
+
+	scenario.Register(
+		scenario.Scenario{
+			Name:           "operator/olm-skip-range/compliant",
+			CheckName:      "operator-olm-skip-range",
+			Category:       checks.CategoryOperator,
+			Description:    "CSV with olm.skipRange annotation should be compliant",
+			ExpectedStatus: checks.StatusCompliant,
+			Setup:          scenario.VanillaDeploymentSetup,
+			PostDiscovery: func(resources *checks.DiscoveredResources) {
+				csv := builder.NewCSV("test-operator.v1.2.3", resources.Namespaces[0]).
+					WithSkipRange(">=1.0.0 <2.0.0").
+					Build()
+				resources.CSVs = append(resources.CSVs, csv)
+			},
+		},
+		scenario.Scenario{
+			Name:           "operator/olm-skip-range/non-compliant",
+			CheckName:      "operator-olm-skip-range",
+			Category:       checks.CategoryOperator,
+			Description:    "CSV without olm.skipRange annotation should be non-compliant",
+			ExpectedStatus: checks.StatusNonCompliant,
+			Setup:          scenario.VanillaDeploymentSetup,
+			PostDiscovery: func(resources *checks.DiscoveredResources) {
+				csv := builder.NewCSV("test-operator.v1.2.3", resources.Namespaces[0]).
 					Build()
 				resources.CSVs = append(resources.CSVs, csv)
 			},

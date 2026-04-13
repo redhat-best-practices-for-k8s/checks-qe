@@ -8,7 +8,7 @@ import (
 	rbacv1 "k8s.io/api/rbac/v1"
 )
 
-func init() {
+func registerRBAC() {
 	// cluster-role-bindings
 	scenario.Register(
 		scenario.Scenario{

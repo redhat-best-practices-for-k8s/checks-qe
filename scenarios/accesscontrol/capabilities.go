@@ -8,7 +8,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 )
 
-func init() {
+func registerCapabilities() {
 	caps := []struct {
 		capability corev1.Capability
 		checkName  string

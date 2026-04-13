@@ -16,7 +16,7 @@ func execProbeWithPeriod(period int32) *corev1.Probe {
 	}
 }
 
-func init() {
+func registerExecProbes() {
 	scenario.Register(
 		scenario.Scenario{
 			Name:           "performance/cpu-pinning-no-exec-probes/compliant",
