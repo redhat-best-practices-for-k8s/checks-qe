@@ -25,8 +25,9 @@ func runCmd() *cobra.Command {
 	)
 
 	cmd := &cobra.Command{
-		Use:   "run",
-		Short: "Run QE scenarios against a live cluster",
+		Use:          "run",
+		Short:        "Run QE scenarios against a live cluster",
+		SilenceUsage: true,
 		RunE: func(_ *cobra.Command, _ []string) error {
 			cl, err := cluster.NewClient(kubeconfig)
 			if err != nil {
