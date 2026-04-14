@@ -17,7 +17,7 @@ func registerContainerLogging() {
 			ExpectedStatus: checks.StatusCompliant,
 			Setup: func(ctx *scenario.RunContext) error {
 				dep := builder.NewDeployment("test-dep", ctx.Namespace).
-					WithCommand("/bin/sh", "-c", "while true; do echo alive; sleep 5; done").
+					WithCommand("/bin/sh", "-c", "echo started; while true; do echo alive; sleep 1; done").
 					Build()
 				return cluster.CreateAndWaitForDeployment(ctx.Ctx, ctx.Client, dep, cluster.DefaultTimeout)
 			},
