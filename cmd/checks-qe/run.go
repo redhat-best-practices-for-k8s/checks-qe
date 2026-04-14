@@ -68,6 +68,9 @@ func runCmd() *cobra.Command {
 
 			var summary runner.Summary
 			switch mode {
+			case "direct":
+				r := runner.New(cl.Interface, cl.Config, cl.IsOCP, opts, printFn)
+				summary = r.Run(scenarios)
 			case "operator":
 				ctrlClient, err := cluster.NewOperatorClient(cl.Config)
 				if err != nil {
@@ -79,8 +82,7 @@ func runCmd() *cobra.Command {
 				r := runner.NewOperator(cl.Interface, ctrlClient, cl.Config, cl.IsOCP, opts, printFn)
 				summary = r.Run(scenarios)
 			default:
-				r := runner.New(cl.Interface, cl.Config, cl.IsOCP, opts, printFn)
-				summary = r.Run(scenarios)
+				return fmt.Errorf("unknown mode %q: must be 'direct' or 'operator'", mode)
 			}
 
 			fmt.Fprintf(os.Stdout, "\n%s\n", summary)

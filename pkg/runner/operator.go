@@ -16,10 +16,7 @@ import (
 	ctrlclient "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-const (
-	defaultScanTimeout = 3 * time.Minute
-	scanPollInterval   = 2 * time.Second
-)
+const scanPollInterval = 2 * time.Second
 
 type OperatorRunner struct {
 	k8sClient   kubernetes.Interface
@@ -36,7 +33,7 @@ func NewOperator(k8sClient kubernetes.Interface, ctrlClient ctrlclient.Client, c
 		opts.Parallel = 1
 	}
 	if opts.Timeout == 0 {
-		opts.Timeout = defaultScanTimeout
+		opts.Timeout = 5 * time.Minute
 	}
 	return &OperatorRunner{
 		k8sClient:  k8sClient,
@@ -214,6 +211,12 @@ func (r *OperatorRunner) shouldSkip(s scenario.Scenario) bool {
 	if s.RequiresProbe && r.opts.SkipProbe {
 		return true
 	}
+	if s.RequiresDualStack {
+		return true
+	}
+	if s.RequiresMultus {
+		return true
+	}
 	return false
 }
 
@@ -229,6 +232,12 @@ func (r *OperatorRunner) skipReason(s scenario.Scenario) string {
 	}
 	if s.RequiresProbe && r.opts.SkipProbe {
 		return "probe scenarios skipped (--skip-probe)"
+	}
+	if s.RequiresDualStack {
+		return "requires dual-stack cluster (not detected in operator mode)"
+	}
+	if s.RequiresMultus {
+		return "requires Multus CNI (not detected in operator mode)"
 	}
 	return "skipped"
 }
