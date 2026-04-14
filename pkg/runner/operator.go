@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/sha256"
 	"fmt"
+	"strings"
 	"sync"
 	"time"
 
@@ -205,6 +206,9 @@ func (r *OperatorRunner) shouldSkip(s scenario.Scenario) bool {
 	if s.PostDiscovery != nil {
 		return true
 	}
+	if testsDegradedMode(s) {
+		return true
+	}
 	if s.RequiresOCP && (r.opts.SkipOCP || !r.isOCP) {
 		return true
 	}
@@ -224,6 +228,9 @@ func (r *OperatorRunner) skipReason(s scenario.Scenario) string {
 	if s.PostDiscovery != nil {
 		return "uses PostDiscovery (not supported in operator mode)"
 	}
+	if testsDegradedMode(s) {
+		return "tests degraded behavior (operator always provides full infrastructure)"
+	}
 	if s.RequiresOCP && !r.isOCP {
 		return "requires OpenShift cluster"
 	}
@@ -240,6 +247,18 @@ func (r *OperatorRunner) skipReason(s scenario.Scenario) string {
 		return "requires Multus CNI (not detected in operator mode)"
 	}
 	return "skipped"
+}
+
+// Scenarios ending in "-no-probe", "-no-scale-client", etc. test behavior when
+// operator infrastructure is absent. The operator always provides probes and
+// scale clients, so these expected outcomes don't apply.
+func testsDegradedMode(s scenario.Scenario) bool {
+	for _, suffix := range []string{"-no-probe", "-no-scale-client"} {
+		if strings.HasSuffix(s.Name, suffix) {
+			return true
+		}
+	}
+	return false
 }
 
 func (r *OperatorRunner) cleanupNamespace(ns string) {
