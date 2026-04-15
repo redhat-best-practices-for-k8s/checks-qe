@@ -1,10 +1,14 @@
 BINARY = checks-qe
 GOBIN ?= $(shell go env GOPATH)/bin
+REGISTRY ?= quay.io
+IMAGE_NAME ?= redhat-best-practices-for-k8s/checks-qe
+IMAGE_TAG ?= unstable
+VERSION ?= dev
 
-.PHONY: build lint vet test clean
+.PHONY: build lint vet test clean build-image
 
 build:
-	go build -o $(BINARY) ./cmd/checks-qe/
+	go build -ldflags "-X main.version=$(VERSION)" -o $(BINARY) ./cmd/checks-qe/
 
 lint:
 	golangci-lint run ./...
@@ -20,3 +24,9 @@ clean:
 
 list: build
 	./$(BINARY) list
+
+build-image:
+	docker build \
+		--build-arg VERSION=$(VERSION) \
+		-t $(REGISTRY)/$(IMAGE_NAME):$(IMAGE_TAG) \
+		-f Dockerfile .
