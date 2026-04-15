@@ -1,0 +1,10 @@
+.git
+.github
+.gitignore
+.golangci.yml
+.DS_Store
+*.md
+*.exe
+*.test
+*.out
+checks-qe
