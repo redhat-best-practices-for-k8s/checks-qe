@@ -10,7 +10,7 @@ import (
 	"k8s.io/client-go/rest"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	bpsv1alpha1 "github.com/sebrandon1/bps-operator/api/v1alpha1"
+	bpsv1alpha1 "github.com/redhat-best-practices-for-k8s/checks-types/api/v1alpha1"
 )
 
 func NewOperatorClient(config *rest.Config) (client.Client, error) {
