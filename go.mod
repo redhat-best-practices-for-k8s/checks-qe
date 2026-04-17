@@ -10,10 +10,10 @@ require (
 	github.com/redhat-best-practices-for-k8s/checks v0.0.23
 	github.com/sebrandon1/bps-operator v0.0.8
 	github.com/spf13/cobra v1.10.2
-	k8s.io/api v0.35.3
-	k8s.io/apiextensions-apiserver v0.35.3
-	k8s.io/apimachinery v0.35.3
-	k8s.io/client-go v0.35.3
+	k8s.io/api v0.35.4
+	k8s.io/apiextensions-apiserver v0.35.4
+	k8s.io/apimachinery v0.35.4
+	k8s.io/client-go v0.35.4
 	k8s.io/utils v0.0.0-20260108192941-914a6e750570
 	sigs.k8s.io/controller-runtime v0.23.3
 )
