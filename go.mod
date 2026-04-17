@@ -8,7 +8,7 @@ require (
 	github.com/blang/semver/v4 v4.0.0
 	github.com/operator-framework/api v0.42.0
 	github.com/redhat-best-practices-for-k8s/checks v0.0.23
-	github.com/sebrandon1/bps-operator v0.0.8
+	github.com/redhat-best-practices-for-k8s/checks-types v0.0.1
 	github.com/spf13/cobra v1.10.2
 	k8s.io/api v0.35.3
 	k8s.io/apiextensions-apiserver v0.35.3

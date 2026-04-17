@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	bpsv1alpha1 "github.com/sebrandon1/bps-operator/api/v1alpha1"
+	bpsv1alpha1 "github.com/redhat-best-practices-for-k8s/checks-types/api/v1alpha1"
 	"github.com/redhat-best-practices-for-k8s/checks-qe/pkg/cluster"
 	"github.com/redhat-best-practices-for-k8s/checks-qe/pkg/scenario"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
