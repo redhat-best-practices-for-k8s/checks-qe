@@ -79,6 +79,7 @@ jobs:
         run: ./checks-qe run --skip-ocp --skip-probe --category "${{ matrix.category }}" --parallel 8 --verbose
 
   integration-ocp:
+    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     needs: [lint, build]
     strategy:
