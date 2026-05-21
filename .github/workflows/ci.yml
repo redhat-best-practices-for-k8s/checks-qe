@@ -14,7 +14,7 @@ env:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-go@v6
@@ -27,7 +27,7 @@ jobs:
           args: --timeout=5m
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-go@v6
@@ -47,7 +47,7 @@ jobs:
           retention-days: 1
 
   integration-k8s:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [lint, build]
     strategy:
       fail-fast: false
@@ -80,7 +80,7 @@ jobs:
 
   integration-ocp:
     if: github.actor != 'dependabot[bot]'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [lint, build]
     strategy:
       fail-fast: false
