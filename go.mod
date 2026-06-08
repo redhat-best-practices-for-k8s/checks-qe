@@ -2,7 +2,7 @@ module github.com/redhat-best-practices-for-k8s/checks-qe
 
 go 1.26.1
 
-toolchain go1.26.2
+toolchain go1.26.4
 
 require (
 	github.com/blang/semver/v4 v4.0.0
