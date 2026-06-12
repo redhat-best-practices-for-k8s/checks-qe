@@ -111,4 +111,4 @@ jobs:
         env:
           OCP_PULL_SECRET: ${{ secrets.CRC_PULL_SECRET }}
       - name: Run ${{ matrix.category }} scenarios
-        run: ./checks-qe run --skip-probe --category "${{ matrix.category }}" --parallel 8 --verbose
+        run: ./checks-qe run --skip-probe --category "${{ matrix.category }}" --parallel 4 --verbose
