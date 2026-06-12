@@ -11,7 +11,7 @@ import (
 	"k8s.io/client-go/kubernetes"
 )
 
-const DefaultTimeout = 2 * time.Minute
+const DefaultTimeout = 4 * time.Minute
 
 func CreateAndWaitForDeployment(ctx context.Context, client kubernetes.Interface, dep *appsv1.Deployment, timeout time.Duration) error {
 	created, err := client.AppsV1().Deployments(dep.Namespace).Create(ctx, dep, metav1.CreateOptions{})
