@@ -10,10 +10,10 @@ require (
 	github.com/redhat-best-practices-for-k8s/checks v0.0.26
 	github.com/redhat-best-practices-for-k8s/checks-types v1.0.1
 	github.com/spf13/cobra v1.10.2
-	k8s.io/api v0.36.1
-	k8s.io/apiextensions-apiserver v0.36.1
-	k8s.io/apimachinery v0.36.1
-	k8s.io/client-go v0.36.1
+	k8s.io/api v0.36.2
+	k8s.io/apiextensions-apiserver v0.36.2
+	k8s.io/apimachinery v0.36.2
+	k8s.io/client-go v0.36.2
 	k8s.io/utils v0.0.0-20260210185600-b8788abfbbc2
 	sigs.k8s.io/controller-runtime v0.24.1
 )
