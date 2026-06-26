@@ -33,12 +33,20 @@ jobs:
       - uses: actions/setup-go@v6
         with:
           go-version-file: go.mod
+      # Build and vet can run in parallel - independent operations
       - name: Build
+        background: true
         run: go build -o checks-qe ./cmd/checks-qe/
+      - name: Vet
+        background: true
+        run: go vet ./...
+
+      # Wait for both to complete
+      - name: Wait for build and vet
+        wait-all: true
+
       - name: Verify list
         run: ./checks-qe list
-      - name: Vet
-        run: go vet ./...
       - name: Upload binary
         uses: actions/upload-artifact@v7
         with:
