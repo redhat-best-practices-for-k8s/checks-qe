@@ -78,7 +78,7 @@ jobs:
       - name: Make binary executable
         run: chmod +x checks-qe
       - name: Create K8s cluster
-        uses: palmsoftware/quick-k8s@v0
+        uses: palmsoftware/quick-k8s@v1
         with:
           clusterName: checks-qe
           numWorkerNodes: '1'
