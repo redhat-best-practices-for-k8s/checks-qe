@@ -6,7 +6,7 @@ toolchain go1.26.5
 
 require (
 	github.com/blang/semver/v4 v4.0.0
-	github.com/operator-framework/api v0.44.0
+	github.com/operator-framework/api v0.45.0
 	github.com/redhat-best-practices-for-k8s/checks v0.0.26
 	github.com/redhat-best-practices-for-k8s/checks-types v1.0.1
 	github.com/spf13/cobra v1.10.2
@@ -40,7 +40,7 @@ require (
 	github.com/go-openapi/swag/stringutils v0.25.4 // indirect
 	github.com/go-openapi/swag/typeutils v0.25.4 // indirect
 	github.com/go-openapi/swag/yamlutils v0.25.4 // indirect
-	github.com/google/cel-go v0.28.1 // indirect
+	github.com/google/cel-go v0.29.2 // indirect
 	github.com/google/gnostic-models v0.7.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/h2non/filetype v1.1.3 // indirect
