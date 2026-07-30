@@ -95,7 +95,7 @@ func registerSecurityContext() {
 	scenario.Register(
 		scenario.Scenario{
 			Name:           "accesscontrol/read-only-fs/compliant",
-			CheckName:      "access-control-security-context-read-only-file-system",
+			CheckName:      "access-control-security-context-read-only-root-file-system",
 			Category:       checks.CategoryAccessControl,
 			Description:    "Deployment with readOnlyRootFilesystem=true should be compliant",
 			ExpectedStatus: checks.StatusCompliant,
@@ -108,7 +108,7 @@ func registerSecurityContext() {
 		},
 		scenario.Scenario{
 			Name:           "accesscontrol/read-only-fs/non-compliant",
-			CheckName:      "access-control-security-context-read-only-file-system",
+			CheckName:      "access-control-security-context-read-only-root-file-system",
 			Category:       checks.CategoryAccessControl,
 			Description:    "Deployment without readOnlyRootFilesystem should be non-compliant",
 			ExpectedStatus: checks.StatusNonCompliant,
@@ -116,7 +116,7 @@ func registerSecurityContext() {
 		},
 		scenario.Scenario{
 			Name:           "accesscontrol/read-only-fs/mixed-two-deployments",
-			CheckName:      "access-control-security-context-read-only-file-system",
+			CheckName:      "access-control-security-context-read-only-root-file-system",
 			Category:       checks.CategoryAccessControl,
 			Description:    "Two deployments, one without readOnlyRootFS should be non-compliant",
 			ExpectedStatus: checks.StatusNonCompliant,
