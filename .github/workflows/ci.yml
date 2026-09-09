@@ -87,7 +87,11 @@ jobs:
         run: ./checks-qe run --skip-ocp --skip-probe --category "${{ matrix.category }}" --parallel 8 --verbose
 
   integration-ocp:
-    if: github.actor != 'dependabot[bot]'
+    # Fork pull requests cannot access the CRC pull secret required by quick-ocp.
+    if: >-
+      github.actor != 'dependabot[bot]' &&
+      (github.event_name != 'pull_request' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
     runs-on: ubuntu-24.04
     needs: [lint, build]
     strategy:
