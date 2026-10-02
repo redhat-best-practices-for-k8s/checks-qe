@@ -117,10 +117,8 @@ jobs:
       - name: Create OCP cluster
         uses: palmsoftware/quick-ocp@v1
         with:
-          ocpPullSecret: $OCP_PULL_SECRET
+          ocpPullSecret: ${{ secrets.CRC_PULL_SECRET }}
           bundleCache: true
           waitForOperatorsReady: true
-        env:
-          OCP_PULL_SECRET: ${{ secrets.CRC_PULL_SECRET }}
       - name: Run ${{ matrix.category }} scenarios
         run: ./checks-qe run --skip-probe --category "${{ matrix.category }}" --parallel 4 --verbose
