@@ -1,5 +1,8 @@
 # checks-qe
 
+[![CI](https://github.com/redhat-best-practices-for-k8s/checks-qe/actions/workflows/ci.yml/badge.svg)](https://github.com/redhat-best-practices-for-k8s/checks-qe/actions/workflows/ci.yml)
+[![Build and push image](https://github.com/redhat-best-practices-for-k8s/checks-qe/actions/workflows/checks-qe-image.yaml/badge.svg)](https://github.com/redhat-best-practices-for-k8s/checks-qe/actions/workflows/checks-qe-image.yaml)
+
 Scenario-based QE testing for the [checks](https://github.com/redhat-best-practices-for-k8s/checks) library. Each scenario creates real Kubernetes resources, runs the checks library's autodiscovery, executes a single check, and asserts the result matches expectations.
 
 **Coverage:** 222 scenarios covering all 105 checks across 9 categories.
@@ -8,13 +11,19 @@ Scenario-based QE testing for the [checks](https://github.com/redhat-best-practi
 
 ### Prerequisites
 
-- Go 1.26+
+- Go 1.27+
 - Access to a Kubernetes or OpenShift cluster (`KUBECONFIG` set or `~/.kube/config` present)
 
 ### Build
 
 ```bash
 go build -o checks-qe ./cmd/checks-qe/
+```
+
+### Check version
+
+```bash
+./checks-qe version
 ```
 
 ### List scenarios
@@ -58,6 +67,8 @@ go build -o checks-qe ./cmd/checks-qe/
 | `--category X` | Run only scenarios in this category |
 | `--scenario X` | Run only scenarios matching this name pattern |
 | `--kubeconfig` | Path to kubeconfig (default: `$KUBECONFIG` or `~/.kube/config`) |
+| `--mode` | Execution mode: `direct` (default) or `operator` (via bps-operator) |
+| `--operator-namespace` | Namespace where bps-operator is deployed (operator mode only, default: `bps-operator-system`) |
 
 ## Auto-Skip Capabilities
 
