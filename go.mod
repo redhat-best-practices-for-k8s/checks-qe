@@ -7,7 +7,7 @@ toolchain go1.27.4
 require (
 	github.com/blang/semver/v4 v4.0.0
 	github.com/operator-framework/api v0.46.0
-	github.com/redhat-best-practices-for-k8s/checks v0.0.34
+	github.com/redhat-best-practices-for-k8s/checks v0.0.35
 	github.com/redhat-best-practices-for-k8s/checks-types v1.0.3
 	github.com/spf13/cobra v1.10.2
 	k8s.io/api v0.37.2
@@ -20,11 +20,11 @@ require (
 
 require (
 	cel.dev/expr v0.25.2 // indirect
-	github.com/ProtonMail/go-crypto v1.5.2 // indirect
+	cyphar.com/go-pathrs v0.2.5 // indirect
 	github.com/antlr4-go/antlr/v4 v4.13.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
-	github.com/cyphar/filepath-securejoin v0.7.0 // indirect
+	github.com/cloudflare/circl v1.6.3 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/emicklei/go-restful/v3 v3.13.0 // indirect
 	github.com/evanphx/json-patch/v5 v5.9.11 // indirect
