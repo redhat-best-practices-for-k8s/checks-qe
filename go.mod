@@ -6,7 +6,7 @@ toolchain go1.27.4
 
 require (
 	github.com/blang/semver/v4 v4.0.0
-	github.com/operator-framework/api v0.46.0
+	github.com/operator-framework/api v0.47.1
 	github.com/redhat-best-practices-for-k8s/checks v0.0.35
 	github.com/redhat-best-practices-for-k8s/checks-types v1.0.3
 	github.com/spf13/cobra v1.10.2
